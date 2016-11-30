@@ -1,0 +1,18 @@
+mmitFileContent(fileContentOld, repository, git, true);
+            commitFileContent(fileContentNew, repository, git, false);
+
+            // The {tree} will return the underlying tree-id instead of the commit-id itself!
+            ObjectId oldHead = repository.resolve("HEAD^^^^{tree}");   //here is my nullpointer
+            ObjectId head = repository.resolve("HEAD^{tree}");
+
+            System.out.println("Printing diff between tree: " + oldHead + " and " + head);
+
+            // prepare the two iterators to compute the diff between
+            ObjectReader reader = repository.newObjectReader();
+            CanonicalTreeParser oldTreeIter = new CanonicalTreeParser();
+            oldTreeIter.reset(reader, oldHead);
+            CanonicalTreeParser newTreeIter = new CanonicalTreeParser();
+            newTreeIter.reset(reader, head);
+
+            // finally get the list of changed files
+            List<DiffEntry> diffs= ne
